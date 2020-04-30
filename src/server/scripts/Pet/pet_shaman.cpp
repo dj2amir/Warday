@@ -122,6 +122,8 @@ class npc_pet_shaman_fire_elemental : public CreatureScript
                         if (Player* owner = me->GetCharmerOrOwnerPlayerOrPlayerItself())
                             if (Unit* target = owner->GetSelectedUnit())
                                 if (me->_CanDetectFeignDeathOf(target) && me->CanCreatureAttack(target))
+                                    if (me->IsWithinDistInMap(target, 10.0f))
+                                        if (!(me->GetDistanceZ(target) > CREATURE_Z_ATTACK_RANGE)) //ADD SSD
                                     AttackStart(target);
                     _initAttack = false;
                 }
