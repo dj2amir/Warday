@@ -972,7 +972,7 @@ class spell_pal_holy_shock : public SpellScriptLoader
                         caster->CastSpell(unitTarget, sSpellMgr->GetSpellWithRank(SPELL_PALADIN_HOLY_SHOCK_R1_DAMAGE, rank), true);
                 }
             }
-
+            //ADD SSD
             SpellCastResult CheckCast()
             {
                 Unit* caster = GetCaster();
@@ -1086,9 +1086,34 @@ class spell_pal_judgement_of_command : public SpellScriptLoader
                     if (SpellInfo const* spell_proto = sSpellMgr->GetSpellInfo(GetEffectValue()))
                         GetCaster()->CastSpell(unitTarget, spell_proto, true, NULL);
             }
+                      
 
+            SpellCastResult CheckCast()
+            {
+                Unit* caster = GetCaster();
+                if (Unit* target = GetExplTargetUnit())
+                {
+                    if (!caster->IsFriendlyTo(target))
+                    {
+                        if (!caster->IsValidAttackTarget(target))
+                            return SPELL_FAILED_BAD_TARGETS;
+
+                       if (!caster->isInFront(target))
+                           return SPELL_FAILED_UNIT_NOT_INFRONT;
+                    }
+                }
+                else
+                    return SPELL_FAILED_BAD_TARGETS;
+                return SPELL_CAST_OK;
+            }
             void Register()
             {
+                //ADD SSD
+             //   Unit* caster = GetCaster();
+             //   if(Unit* target = GetExplTargetUnit())
+             //        if (!caster->isInFront(target)  )
+             //              OnCheckCast += SpellCheckCastFn(SPELL_FAILED_UNIT_NOT_INFRONT);
+                OnCheckCast += SpellCheckCastFn(spell_pal_judgement_of_command_SpellScript::CheckCast);
                 OnEffectHitTarget += SpellEffectFn(spell_pal_judgement_of_command_SpellScript::HandleDummy, EFFECT_0, SPELL_EFFECT_DUMMY);
             }
         };
