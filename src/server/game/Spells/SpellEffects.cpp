@@ -5252,8 +5252,8 @@ void Spell::EffectKnockBack(SpellEffIndex effIndex)
         if (col || dcol)
         {
             // move back a bit
-            destx = destx - (0.6 * cos(pos.GetOrientation()));
-            desty = desty - (0.6 * sin(pos.GetOrientation()));
+            destx = destx - (1.6 * cos(pos.GetOrientation()));
+            desty = desty - (1.6 * sin(pos.GetOrientation()));
         }
 
         lastpos.Relocate(destx, desty, m_caster->GetPositionZ() + 1.0f, m_caster->GetOrientation());
@@ -5264,8 +5264,8 @@ void Spell::EffectKnockBack(SpellEffIndex effIndex)
 
     // ta inja
    // test
-    unitTarget->GetMotionMaster()->MoveJump(x, y , destz, speedXY, speedz);
-   //ADD SSD OK unitTarget->GetMotionMaster()->MoveJump(destx, desty, destz, speedXY, speedz);
+   // unitTarget->GetMotionMaster()->MoveJump(x, y , destz, speedxy, speedz);
+    unitTarget->GetMotionMaster()->MoveJump(destx, desty, destz, speedXY, speedz);
     //ADD SSD  unitTarget->KnockbackFrom(destx, desty, speedxy, destzdestTarget);
    //ORGINAL unitTarget->KnockbackFrom(x, y, speedxy, speedz);
 }
